@@ -1,0 +1,116 @@
+{\rtf0\ansi{\fonttbl\f0\fswiss Helvetica;\f1\fmodern Courier;\f2\fmodern Ohlfs;}
+\paperw13700
+\paperh7320
+\margl120
+\margr120
+{\colortbl;\red0\green0\blue0;}
+\pard\tx1340\tx2680\tx4020\tx5360\tx6720\tx8060\tx9400\tx10740\tx12080\tx13440\f0\b0\i0\ulnone\fs28\fc0\cf0 This directory has an example loadable kernel server and a user-level program that communicates with it.  \
+\
+The loadable kernel server accepts two MiG-generated remote procedure calls:  
+\b mydriver_import()
+\b0 , which sends data to the server, and 
+\b mydriver_export()
+\b0 , which gets data from the server.\
+\
+Chapter 3, "Using Loadable Kernel Servers," of 
+\i NeXT Operating System Software
+\i0  gives more information on implementing user-level programs that communicate with loadable kernel servers.  
+\i Writing Loadable Kernel Servers
+\i0  gives information on implementing your own loadable kernel server.\
+\
+To build the loadable kernel server and user program, follow these steps:\
+\
+1)  Make a copy of this directory and change to the new directory in a Terminal window.  For example:\
+	
+\f1\fc1\cf1 localhost> 
+\b cp -r /NextDeveloper/Examples/UNIX/LKSOutOfLineData ~
+\f0\b0\fc0\cf0 \
+	
+\f1\fc1\cf1 localhost> 
+\b cd
+\pard\tx520\tx1060\tx1600\tx2120\tx2660\tx3200\tx3720\tx4260\tx4800\tx5320\fc1\cf1  ~/
+\pard\tx1340\tx2680\tx4020\tx5360\tx6720\tx8060\tx9400\tx10740\tx12080\tx13440\fc1\cf1 LKSOutOfLineData
+\f0\b0 \
+\
+2)  Run 
+\b make
+\b0  in the 
+\b KernelServer
+\b0  directory.  (It's important that you make the server before the user program, since the user program depends on files created during this step.)\
+	
+\f1 localhost> 
+\b cd KernelServer\
+	
+\b0 localhost> 
+\b make\
+
+\f0\b0 	\
+3)  Run 
+\b make
+\b0  in the 
+\b User
+\b0  directory.  \
+	
+\f1 localhost> 
+\b cd ../User\
+	
+\b0 localhost> 
+\b make
+\b0 \
+
+\f0 \
+\
+To use the user program:\
+\
+1)  Allocate the loadable kernel server.  It loads automatically once it's allocated.\
+	
+\f1 localhost> 
+\b su\
+
+\f0\b0 	
+\f1 Password:\
+	localhost# 
+\b kl_util -a ../KernelServer/mydriver_reloc
+\b0 \
+	Adding server with relocatable /me/LKSOutOfLineData/User/.. 			/KernelServer/mydriver_reloc\
+	Allocating server mydriver\
+	Server mydriver linking /me/LKSOutOfLineData/User/..\
+		/KernelServer/mydriver_reloc against /mach\
+	Server mydriver linking relocatable "/me/LKSOutOfLineData/User/..\
+		/KernelServer/mydriver_reloc" into loadable "/me/\
+		LKSOutOfLineData/User/../KernelServer/mydriver_loadable"\
+	Server mydriver Allocated\
+	localhost# \
+
+\b \
+
+\f0\b0 2)  Run the user program.  \
+	
+\f1 localhost# 
+\b ./test
+\b0 \
+	Data is: blah\
+	Calling mydriver_import().\
+	Calling mydriver_export().\
+	Trying to access data.\
+	First data element is: A\
+	Second data element is: C\
+	Third data element is: K\
+	Fourth data element is: \
+	Fifth data element is: \
+	Contents of data are: ACK\
+
+\f0 	\
+3)  If you wish to modify the loadable kernel server and then reload it, you should delete the running version of the 
+\b kern_loader
+\b0  before allocating the kernel server again.\
+
+\f1 	localhost# 
+\b kl_util -d mydriver\
+
+\b0 	Server mydriver deallocating\
+	Server mydriver unloading\
+	Server mydriver re-Allocated\
+	Server mydriver Deallocated\
+	
+}

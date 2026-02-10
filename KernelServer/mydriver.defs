@@ -1,0 +1,17 @@
+/* mydriver.defs:  MiG definition file for mydriver */
+
+subsystem mydriver 0;
+
+/* Get standard definition of port_t. */
+#include <mach/std_types.defs>
+
+type in_user_data_t  = ^ char;
+type out_user_data_t = ^(MSG_TYPE_CHAR, 8, dealloc);
+
+import "../Library/mydefs.h";
+
+routine mydriver_import
+    (server: port_t;     user_data: in_user_data_t;      user_data_count: int);
+
+routine mydriver_export
+    (server: port_t; out user_data: out_user_data_t; out user_data_count: int);

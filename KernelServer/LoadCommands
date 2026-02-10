@@ -1,0 +1,14 @@
+#
+# Script used for initializing the loadable kernel server to load
+# the test driver
+#
+
+# Call mydriver_init during loading.
+
+CALL		mydriver_init		0
+
+
+# Associate ports with proc/arg.
+
+SMAP 		mydriver0 mydriver_server 0
+ADVERTISE 	mydriver0
