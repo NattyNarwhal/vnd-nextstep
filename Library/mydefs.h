@@ -1,5 +1,4 @@
-typedef char *in_user_data_t;
-typedef char *out_user_data_t;
+#define VND_BLOCK_MAJOR 15
+#define VND_RAW_MAJOR 31
 
-typedef in_user_data_t user_data_t;
 

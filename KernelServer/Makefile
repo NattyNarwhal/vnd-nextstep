@@ -1,8 +1,8 @@
 LIBRARY=../Library
 MIGOUTPUT=mydriverUser.c mydriverServer.c mydriver.h
-SERVER_OBJ= mydriver_main.o mydriverServer.o
+SERVER_OBJ= mydriver_main.o mydriverServer.o vnd.o disksort.o
 #SERVER_OBJ= mydriver_main.o mydriverServer.o
-CFLAGS= -DKERNEL -DMACH_USER_API -DMACH -Wall -g -DDEBUG 
+CFLAGS= -DKERNEL -DMACH_USER_API -DMACH -Wall -g -DDEBUG -I../Library
 
 all:	mydriver_reloc ${LIBRARY}/mydriverUser.o
 
