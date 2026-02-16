@@ -1,5 +1,5 @@
 LIBRARY=../Library
-SERVER_OBJ= vnddrv_main.o vnd.o disksort.o
+SERVER_OBJ= vnddrv_main.o vnd.o disksort.o kern_physio.o
 CFLAGS= -DKERNEL -DMACH_USER_API -DMACH -Wall -g -DDEBUG -I../Library
 
 all:	vnddrv_reloc

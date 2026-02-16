@@ -23,3 +23,6 @@
 
 /* because i don't want to deal with porting to the nextstep disksort... */
 void disksort(register struct buf*, register struct buf*);
+
+/* for some reason (at least 68k) mach doesn't export minphys; WTF? */
+unsigned vndminphys(struct buf*);

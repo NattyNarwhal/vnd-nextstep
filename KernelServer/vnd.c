@@ -714,7 +714,7 @@ vndread(dev, uio)
 #ifdef BSD44
 	return (physio(vndstrategy, NULL, dev, B_READ, minphys, uio));
 #else
-	return (physio(vndstrategy, NULL, dev, B_READ, minphys, uio, DEV_BSIZE));
+	return (physio(vndstrategy, NULL, dev, B_READ, vndminphys, uio, DEV_BSIZE));
 #endif
 }
 
@@ -731,6 +731,6 @@ vndwrite(dev, uio)
 #ifdef BSD44
 	return (physio(vndstrategy, NULL, dev, B_WRITE, minphys, uio));
 #else
-	return (physio(vndstrategy, NULL, dev, B_WRITE, minphys, uio, DEV_BSIZE));
+	return (physio(vndstrategy, NULL, dev, B_WRITE, vndminphys, uio, DEV_BSIZE));
 #endif
 }
