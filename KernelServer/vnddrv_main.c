@@ -49,12 +49,15 @@ struct cdevsw my_cdevsw =  {
 static struct bdevsw my_saved_bdevsw;
 static struct cdevsw my_saved_cdevsw;
 
-void vnddrv_init(void)
+kern_server_t vnddrv_inst;
+
+void vnddrv_init(int unused)
 {
 	/* XXX: With DriverKit on non-68k, we can dynamically allocate
 	 * with IOAddToCdevsw; not present on 68k mach kernel (but if
 	 * it was, we could write this in DriverKit...)
 	 */
+	printf("vnd driver loading\n");
 	my_saved_bdevsw = bdevsw[VND_BLOCK_MAJOR];
 	my_saved_cdevsw = cdevsw[VND_RAW_MAJOR];
 	bdevsw[VND_BLOCK_MAJOR]= my_bdevsw;
@@ -65,6 +68,7 @@ void vnddrv_init(void)
 
 void vnddrv_signoff(void)
 {
+	printf("vnd driver unloading\n\n");
 	vndshutdown();
 	bdevsw[VND_BLOCK_MAJOR]= my_saved_bdevsw;
 	cdevsw[VND_RAW_MAJOR]  = my_saved_cdevsw;
