@@ -1,4 +1,4 @@
-/* mydriver_main.c:  major functions of mydriver */
+/* vnddrv_main.c:  major functions of vnddrv */
 
 #import <kernserv/kern_server_types.h>
 #import <kernserv/prototypes.h>
@@ -49,7 +49,7 @@ struct cdevsw my_cdevsw =  {
 static struct bdevsw my_saved_bdevsw;
 static struct cdevsw my_saved_cdevsw;
 
-void mydriver_init(void)
+void vnddrv_init(void)
 {
 	/* XXX: With DriverKit on non-68k, we can dynamically allocate
 	 * with IOAddToCdevsw; not present on 68k mach kernel (but if
@@ -63,7 +63,7 @@ void mydriver_init(void)
 	printf("vnd driver loaded\n");
 }
 
-void mydriver_signoff(void)
+void vnddrv_signoff(void)
 {
 	vndshutdown();
 	bdevsw[VND_BLOCK_MAJOR]= my_saved_bdevsw;

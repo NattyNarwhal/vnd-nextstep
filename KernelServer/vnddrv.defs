@@ -1,6 +1,6 @@
-/* mydriver.defs:  MiG definition file for mydriver */
+/* vnddrv.defs:  MiG definition file for vnddrv */
 
-subsystem mydriver 0;
+subsystem vnddrv 0;
 
 /* Get standard definition of port_t. */
 #include <mach/std_types.defs>

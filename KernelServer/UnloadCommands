@@ -2,4 +2,4 @@
 # Script used for shutting down the loadable kernel server 
 #
 
-CALL		mydriver_signoff		0
+CALL		vnddrv_signoff		0

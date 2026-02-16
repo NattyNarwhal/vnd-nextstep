@@ -1,27 +1,27 @@
 LIBRARY=../Library
-MIGOUTPUT=mydriverUser.c mydriverServer.c mydriver.h
-SERVER_OBJ= mydriver_main.o mydriverServer.o vnd.o disksort.o
-#SERVER_OBJ= mydriver_main.o mydriverServer.o
+MIGOUTPUT=vnddrvUser.c vnddrvServer.c vnddrv.h
+SERVER_OBJ= vnddrv_main.o vnddrvServer.o vnd.o disksort.o
+#SERVER_OBJ= vnddrv_main.o vnddrvServer.o
 CFLAGS= -DKERNEL -DMACH_USER_API -DMACH -Wall -g -DDEBUG -I../Library
 
-all:	mydriver_reloc ${LIBRARY}/mydriverUser.o
+all:	vnddrv_reloc ${LIBRARY}/vnddrvUser.o
 
-mydriver_reloc: ${SERVER_OBJ} LoadCommands UnloadCommands
-	kl_ld -n mydriver -l LoadCommands -u UnloadCommands -i instance \
-		-d mydriver_loadable -o $@ ${SERVER_OBJ}
+vnddrv_reloc: ${SERVER_OBJ} LoadCommands UnloadCommands
+	kl_ld -n vnddrv -l LoadCommands -u UnloadCommands -i instance \
+		-d vnddrv_loadable -o $@ ${SERVER_OBJ}
 
-${LIBRARY}/mydriverUser.o:	mydriverUser.c
-	${CC} ${CFLAGS} -c -o $@ mydriverUser.c
+${LIBRARY}/vnddrvUser.o:	vnddrvUser.c
+	${CC} ${CFLAGS} -c -o $@ vnddrvUser.c
 
-${MIGOUTPUT}:	mydriver.defs
-	mig mydriver.defs
-	cp mydriver.h ${LIBRARY}/mydriver.h
+${MIGOUTPUT}:	vnddrv.defs
+	mig vnddrv.defs
+	cp vnddrv.h ${LIBRARY}/vnddrv.h
 
 clean:
 	rm -f *.o
 	rm -f ${MIGOUTPUT}
-	rm -f mydriver_reloc mydriver_loadable
-	rm -f ${LIBRARY}/mydriverUser.o ${LIBRARY}/mydriver.h
+	rm -f vnddrv_reloc vnddrv_loadable
+	rm -f ${LIBRARY}/vnddrvUser.o ${LIBRARY}/vnddrv.h
 	
 .c.o:
 	${CC} ${CFLAGS} -c $*.c
