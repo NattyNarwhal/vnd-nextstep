@@ -1,8 +1,0 @@
-/* vnddrv.defs:  MiG definition file for vnddrv */
-
-subsystem vnddrv 0;
-
-/* Get standard definition of port_t. */
-#include <mach/std_types.defs>
-
-import "../Library/mydefs.h";
