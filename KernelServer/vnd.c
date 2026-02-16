@@ -496,11 +496,12 @@ vndioctl(dev, cmd, data, flag)
 #endif
 #ifdef BSD44
 	error = suser(p->p_ucred, &p->p_acflag);
-#else
-	error = suser();
-#endif
 	if (error)
 		return (error);
+#else
+	if (0 == suser())
+		return (u.u_error);
+#endif
 	if (unit >= numvnd)
 		return (ENXIO);
 
