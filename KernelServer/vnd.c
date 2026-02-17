@@ -530,9 +530,16 @@ vndioctl(dev, cmd, data, flag)
 		VOP_UNLOCK(nd.ni_vp);
 		vnd->sc_vp = nd.ni_vp;
 #else
-		if (error = vn_open(vio->vnd_file, FREAD|FWRITE, 0, &vp))
+		if (error = vn_open(vio->vnd_file, UIO_USERSPACE, FREAD|FWRITE, 0, &vp)) {
+#if DEBUG
+			printf("VNDIOCSET: vn_open error %d\n", error);
+#endif
 			return(error);
+		}
 		if (error = VOP_GETATTR(vp, &vattr, u.u_cred)) {
+#if DEBUG
+			printf("VNDIOCSET: VOP_GETATTR error %d\n", error);
+#endif
 			/* VOP_UNLOCK(vp); */ /* XXX */
 			(void) vn_close(vp, FREAD|FWRITE, u.u_cred);
 			return(error);
@@ -546,6 +553,9 @@ vndioctl(dev, cmd, data, flag)
 			(void) vn_close(nd.ni_vp, FREAD|FWRITE, p->p_ucred, p);
 #else
 		if (error = vndsetcred(vnd, u.u_cred)) {
+#if DEBUG
+			printf("VNDIOCSET: vndsetcred error %d\n", error);
+#endif
 			(void) vn_close(vp, FREAD|FWRITE, u.u_cred);
 #endif
 			return(error);
