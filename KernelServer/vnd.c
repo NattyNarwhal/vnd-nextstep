@@ -540,11 +540,10 @@ vndioctl(dev, cmd, data, flag)
 #if DEBUG
 			printf("VNDIOCSET: VOP_GETATTR error %d\n", error);
 #endif
-			/* VOP_UNLOCK(vp); */ /* XXX */
 			(void) vn_close(vp, FREAD|FWRITE, u.u_cred);
+			VN_RELE(vp);
 			return(error);
 		}
-		/* VOP_UNLOCK(vp); */
 		vnd->sc_vp = vp;
 #endif
 		vnd->sc_size = btodb(vattr.va_size);	/* note truncation */
@@ -557,6 +556,7 @@ vndioctl(dev, cmd, data, flag)
 			printf("VNDIOCSET: vndsetcred error %d\n", error);
 #endif
 			(void) vn_close(vp, FREAD|FWRITE, u.u_cred);
+			VN_RELE(vp);
 #endif
 			return(error);
 		}
@@ -680,6 +680,7 @@ vndclear(vnd)
 	if (vp == (struct vnode *)0)
 		panic("vndioctl: null vp");
 	(void) vn_close(vp, FREAD|FWRITE, vnd->sc_cred);
+	VN_RELE(vp);
 	cred = vnd->sc_cred;
 	if (cred != NOCRED) {
 		vnd->sc_cred = NOCRED;
