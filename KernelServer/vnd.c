@@ -292,6 +292,7 @@ vndstrategy(bp)
 #else
 	bsize = vnd->sc_vp->v_vfsp->vfs_bsize; /* modified from 0.3; vfs_stat is opaque */
 #endif
+	addr = bp->b_data;
 	flags = bp->b_flags | B_CALL;
 	for (resid = bp->b_resid; resid; resid -= sz) {
 		struct vnode *vp;
