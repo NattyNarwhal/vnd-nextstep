@@ -272,6 +272,10 @@ vndstrategy(bp)
 	if ((vnd->sc_flags & VNF_INITED) == 0) {
 		bp->b_error = ENXIO;
 		bp->b_flags |= B_ERROR;
+#ifdef DEBUG
+		if (vnddebug & VDB_IO)
+			printf("vndstrategy: not inited\n");
+#endif
 		biodone(bp);
 		return;
 	}
@@ -282,6 +286,10 @@ vndstrategy(bp)
 		if (bn != vnd->sc_size) {
 			bp->b_error = EINVAL;
 			bp->b_flags |= B_ERROR;
+#ifdef DEBUG
+			if (vnddebug & VDB_IO)
+				printf("vndstrategy: bn %d != sc_size %ld\n", bn, vnd->sc_size);
+#endif
 		}
 		biodone(bp);
 		return;
@@ -364,6 +372,11 @@ vndstrategy(bp)
 			nbp->vb_buf.b_error = error;
 			nbp->vb_buf.b_flags |= B_ERROR;
 			bp->b_resid -= (resid - sz);
+#ifdef DEBUG
+			if (vnddebug & VDB_IO)
+				printf("vndstrategy: nbp %p error %d\n", nbp,
+				    nbp->vb_buf.b_error);
+#endif
 			biodone(&nbp->vb_buf);
 			return;
 		}
