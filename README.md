@@ -5,8 +5,7 @@ images by having a device backed by a file.
 
 ## Current status
 
-It loads, you can create a device and select a file, but mounting the
-device will panic (in vndstrategy -> vndstart, `dma_list: zero_pfnum`).
+It loads, but doesn't mount devices yet (mount returns EINVAL).
 
 ## Build/run
 
